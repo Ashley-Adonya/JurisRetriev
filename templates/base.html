@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr" class="bg-gray-50 text-gray-800 font-sans">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JurisRetriev - Intelligence Juridique Assistée</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        <div class="flex justify-between items-center">
+          <a
+            href="/"
+            class="text-2xl font-bold tracking-wide hover:text-gray-300"
+            >JurisRetriev</a
+          >
+
+          <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center p-2 rounded hover:bg-slate-800" type="button" aria-label="Menu">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zm0 4h14a1 1 0 110 2H3a1 1 0 010-2zm0 4h14a1 1 0 110 2H3a1 1 0 010-2z" clip-rule="evenodd" />
+            </svg>
+          </button>
+
+          <div class="hidden md:flex items-center gap-8">
+            <nav class="flex space-x-4">
+            <a
+              href="/about"
+              class="text-sm font-medium text-gray-300 hover:text-white transition"
+              >À propos</a
+            >
+            <a
+              href="/contact"
+              class="text-sm font-medium text-gray-300 hover:text-white transition"
+              >Contact</a
+            >
+            </nav>
+
+            <div id="authNav" class="space-x-4">
+              <button
+                id="showLoginBtn"
+                class="text-sm font-medium hover:text-gray-300 transition"
+              >
+                Connexion
+              </button>
+              <button
+                id="showRegisterBtn"
+                class="bg-blue-600 text-white px-4 py-2 rounded-md shadow hover:bg-blue-500 transition font-medium"
+              >
+                Inscription
+              </button>
+            </div>
+            <div id="userNav" class="hidden flex items-center space-x-6">
+              <a href="/chat" class="text-sm font-medium hover:text-blue-400"
+                >Assistant Chat</a
+              >
+              <a
+                href="/admin"
+                id="navAdminLink"
+                class="hidden text-sm font-medium hover:text-blue-400"
+                >Admin (Superviseur)</a
+              >
+              <span
+                class="text-sm text-gray-300 font-medium"
+                id="userEmailDisplay"
+              ></span>
+              <button
+                id="logoutBtn"
+                class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1.5 rounded-md transition text-sm font-semibold"
+              >
+                Déconnexion
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="mobileMenuPanel" class="hidden md:hidden mt-3 border-t border-slate-800 pt-3 space-y-3">
+          <nav class="flex flex-col gap-2">
+            <a href="/about" class="text-sm text-gray-200 hover:text-white">À propos</a>
+            <a href="/contact" class="text-sm text-gray-200 hover:text-white">Contact</a>
+            <a href="/chat" class="text-sm text-gray-200 hover:text-white">Assistant Chat</a>
+            <a href="/admin" id="mobileNavAdminLink" class="hidden text-sm text-gray-200 hover:text-white">Admin (Superviseur)</a>
+          </nav>
+
+          <div id="mobileAuthNav" class="flex flex-col gap-2">
+            <button id="mobileShowLoginBtn" class="w-full text-left text-sm border border-slate-600 rounded px-3 py-2 hover:bg-slate-800">Connexion</button>
+            <button id="mobileShowRegisterBtn" class="w-full text-left text-sm bg-blue-600 rounded px-3 py-2 hover:bg-blue-500">Inscription</button>
+          </div>
+
+          <div id="mobileUserNav" class="hidden flex flex-col gap-2">
+            <span id="mobileUserEmailDisplay" class="text-xs text-gray-300"></span>
+            <button id="mobileLogoutBtn" class="w-full text-left text-sm border border-red-500 text-red-400 rounded px-3 py-2 hover:bg-red-500 hover:text-white">Déconnexion</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Auth Modal -->
+    <div
+      id="authModal"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm p-3 sm:p-4"
+    >
+      <div
+        class="bg-white p-5 sm:p-8 rounded-xl shadow-lg border border-gray-100 max-w-md w-full relative max-h-[92vh] overflow-y-auto"
+      >
+        <button
+          id="closeAuthBtn"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+        >
+          &times;
+        </button>
+        <h2
+          id="authTitle"
+          class="text-3xl font-extrabold text-slate-900 text-center mb-6"
+        >
+          Connexion
+        </h2>
+        <div
+          id="authError"
+          class="hidden mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-lg font-medium"
+        ></div>
+        <div id="resendVerificationWrap" class="hidden mb-4">
+          <button
+            id="resendVerificationBtn"
+            type="button"
+            class="text-sm text-blue-700 hover:underline font-semibold"
+          >
+            Renvoyer l'email de validation
+          </button>
+        </div>
+        <div
+          id="authSuccess"
+          class="hidden mb-4 p-3 bg-green-50 text-green-700 text-sm rounded-lg font-medium"
+        ></div>
+        <form id="authForm" class="space-y-4">
+          <div>
+            <label
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              for="email"
+              >E-mail</label
+            >
+            <input
+              class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-600"
+              type="email"
+              id="email"
+              required
+            />
+          </div>
+          <div>
+            <label
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              for="password"
+              >Mot de passe</label
+            >
+            <input
+              class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-600"
+              type="password"
+              id="password"
+              required
+            />
+            <div class="mt-2 text-right">
+              <a id="modalForgotPasswordLink" href="/forgot-password" class="text-xs text-blue-600 hover:underline">
+                Mot de passe oublié ?
+              </a>
+            </div>
+          </div>
+          <div id="confirmPasswordGroup" class="hidden">
+            <div class="mb-3">
+              <div class="flex items-center justify-between text-xs mb-1">
+                <span class="text-gray-600">Robustesse du mot de passe</span>
+                <span id="registerStrengthText" class="font-semibold text-gray-500">Faible</span>
+              </div>
+              <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div id="registerStrengthBar" class="h-2 w-0 bg-red-500 transition-all duration-200"></div>
+              </div>
+              <ul class="mt-2 text-[11px] text-gray-600 space-y-1">
+                <li id="registerRuleLength">• 12+ caractères</li>
+                <li id="registerRuleUpper">• 1 majuscule</li>
+                <li id="registerRuleLower">• 1 minuscule</li>
+                <li id="registerRuleDigit">• 1 chiffre</li>
+                <li id="registerRuleSpecial">• 1 caractère spécial</li>
+              </ul>
+            </div>
+            <label
+              class="block text-sm font-semibold text-gray-700 mb-1"
+              for="confirmPassword"
+              >Confirmer le mot de passe</label
+            >
+            <input
+              class="w-full border border-gray-300 px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-600"
+              type="password"
+              id="confirmPassword"
+              autocomplete="new-password"
+            />
+            <p class="mt-2 text-xs text-gray-500">
+              12+ caractères, avec majuscule, minuscule, chiffre et caractère spécial.
+            </p>
+          </div>
+          <button
+            class="w-full bg-blue-600 text-white font-bold py-3 mt-2 rounded-lg shadow hover:bg-blue-700 transition"
+            type="submit"
+            id="authSubmitBtn"
+          >
+            Se connecter
+          </button>
+        </form>
+        <div class="mt-4 text-sm text-center">
+          <button id="modalSwitchToRegister" class="text-blue-600 hover:underline" type="button">
+            Pas de compte ? S'inscrire
+          </button>
+          <button id="modalSwitchToLogin" class="hidden text-blue-600 hover:underline" type="button">
+            Déjà un compte ? Se connecter
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="flex-grow w-full">{% block content %}{% endblock %}</main>
+
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-sm">
+      <p>&copy; 2026 JurisRetriev. Projet Expérimental.</p>
+    </footer>
+
+    <script src="/static/js/auth.js"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

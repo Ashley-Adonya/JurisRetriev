@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Administration - JurisRetriev{% endblock %}
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8" id="adminContainer">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Tableau de bord Admin</h1>
+        <button id="refreshStatsBtn" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white hover:bg-gray-50 text-sm font-medium w-full sm:w-auto">Actualiser</button>
+    </div>
+
+    <!-- Alert si erreur -->
+    <div id="adminError" class="hidden rounded-md bg-red-50 p-4">
+        <div class="flex">
+            <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-800" id="adminErrorMsg"></h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Globales -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-2">
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Total Utilisateurs Inscrits</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900" id="statTotalUsers">-</dd>
+            </div>
+        </div>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+            <div class="px-4 py-5 sm:p-6">
+                <dt class="text-sm font-medium text-gray-500 truncate">Requêtes RAG Globales</dt>
+                <dd class="mt-1 text-3xl font-semibold text-gray-900" id="statTotalRequests">-</dd>
+            </div>
+        </div>
+    </div>
+
+    <!-- Derniers utilisateurs inscrits -->
+    <div class="bg-white shadow sm:rounded-lg">
+        <div class="px-4 py-5 sm:px-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">Utilisateurs récents</h3>
+        </div>
+        <div class="border-t border-gray-200">
+            <ul role="list" class="divide-y divide-gray-200" id="recentUsersList">
+                <li class="px-4 py-4 sm:px-6 text-sm text-gray-500 italic text-center">Chargement...</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/admin.js"></script>
+{% endblock %}

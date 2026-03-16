@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}À propos - JurisRetriev{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
+    <div class="text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">À propos de JurisRetriev</h1>
+        <p class="text-base sm:text-xl text-gray-600">Origine, création et objectif du projet</p>
+    </div>
+
+    <div class="bg-white p-5 sm:p-8 rounded-lg shadow-sm border border-gray-100 space-y-6">
+        <div>
+            <h2 class="text-2xl font-bold mb-3 text-indigo-700">Le défi d'Ashley Adonya SADO</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Bonjour, je suis <strong>Ashley Adonya SADO</strong>. JurisRetriev n'est pas seulement un outil de recherche pour le domaine juridique, c'est avant tout un projet conçu pour <strong>challenger mes compétences</strong> en ingénierie logicielle et en intelligence artificielle.
+            </p>
+            <p class="text-gray-700 leading-relaxed mt-2">
+                Mon défi principal était de créer de bout en bout un système complet de <em>Retrieval-Augmented Generation (RAG)</em> de manière non-triviale, c'est-à-dire en imposant des contraintes d'architecture fortes et un haut standard technique, tout en conservant une interface utilisateur claire et accessible.
+            </p>
+        </div>
+
+        <div class="border-t border-gray-100 pt-6">
+            <h2 class="text-2xl font-bold mb-3 text-gray-800">L'origine du système</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Le domaine juridique manipule au quotidien d'imposants volumes de données et de lourds documents. Les systèmes de recherche classiques par mot-clé montrent vite leurs limites lorsqu'il s'agit d'interpréter des concepts, des nuances et de développer une défense d'argumentation cohérente.
+            </p>
+            <p class="text-gray-700 leading-relaxed mt-2">
+                J'ai donc conçu <strong>JurisRetriev</strong> pour surmonter ces contraintes : l'objectif est d'exploiter les Modèles de Langage (LLM) comme DeepSeek couplés à des Vectorstores in-memory et persistants (MongoDB) pour fournir une assistance intelligente qui soit capable de formuler des réponses pertinentes, argumentées et sourcées.
+            </p>
+        </div>
+
+        <div class="border-t border-gray-100 pt-6">
+            <h2 class="text-2xl font-bold mb-3 text-gray-800">Choix d'Architecture (Le Challenge)</h2>
+            <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                <li><strong>Absence totale d'Object-Oriented Programming (No-OOP) :</strong> Pour complexifier l'intégration avec la base de données MongoDB, j'ai délibérément conçu le backend (Python/Flask) de manière entièrement <em>fonctionnelle/impérative</em> via l'utilisation stricte de dictionnaires.</li>
+                <li><strong>Gestion avancée des contraintes :</strong> Implémentation d'une limitation des quotas (5 requêtes par jour par utilisateur) nécessitant le développement d'un système robuste d'Analytics et de collection de données (Aggregation Pipelines).</li>
+                <li><strong>Sécurité et isolation des contextes :</strong> Chaque analyse tourne dans un bac à sable documentaire (contexte en mémoire limité à quelques documents). La persistance longue-durée est bridée volontairement pour assurer un focus parfait de l'IA sur l'affaire examinée.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

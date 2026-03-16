@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Contact - JurisRetriev{% endblock %}
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
+    <div class="text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Contactez-nous</h1>
+        <p class="text-base sm:text-xl text-gray-600">L'équipe JurisRetriev est là pour vous assister, même hors ligne.</p>
+    </div>
+
+    <div class="bg-white p-5 sm:p-8 rounded-lg shadow-sm border border-gray-100">
+        <h2 class="text-xl sm:text-2xl font-bold mb-6">Assistance et Support</h2>
+        <div class="space-y-4">
+            <p class="text-gray-700"><strong>Demande globale & Quotas :</strong></p>
+            <p class="text-gray-600 bg-gray-50 p-4 rounded-md">Pour toute demande d'augmentation de quota ou de support technique, veuillez contacter Ashley Sado à l'adresse suivante :<br><a href="mailto:ashley.sado@example.com" class="text-indigo-600 font-medium">ashley.sado@example.com</a></p>
+            
+            <p class="text-gray-700 mt-6"><strong>Support hors-ligne :</strong></p>
+            <p class="text-gray-600">Si l'application est inaccessible ou que vous n'arrivez pas à vous connecter, vous pouvez toujours joindre notre équipe d'administration à :<br><a href="mailto:{{ admin_email }}" class="text-indigo-600 font-medium">{{ admin_email }}</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
